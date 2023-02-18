@@ -18,15 +18,11 @@ class BlogPostListView(generics.ListCreateAPIView):
     permission_classes = [IsAuthenticatedOrTokenHasScope]
     template_name = 'blogpost_list.html'
     
-    def get(self, request, *args, **kwargs):
-        blogposts = self.get_queryset()
-        return render(request, self.template_name, {'blogposts': blogposts})
+    # def get(self, request, *args, **kwargs):
+    #     blogposts = self.get_queryset()
+    #     return render(request, self.template_name, {'blogposts': blogposts})
     
-    def post(self, request, *args, **kwargs):
-        serializer = self.serializer_class(data=request.data)
-        serializer.is_valid(raise_exception=True)
-        serializer.save(author=request.user)
-        return redirect('blogpost-list')
+
 
 
 class BlogPostDetailView(generics.RetrieveUpdateDestroyAPIView):
@@ -70,6 +66,7 @@ class UpvoteDownvoteListView(generics.ListCreateAPIView):
 
 
 class UpvoteDownvoteDetailView(generics.RetrieveUpdateDestroyAPIView):
+    queryset = UpvoteDownvote.objects.all()
     serializer_class = UpvoteDownvoteSerializer
     permission_classes = [IsAuthenticatedOrTokenHasScope]
 
